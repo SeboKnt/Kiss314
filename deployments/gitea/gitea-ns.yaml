@@ -1,7 +1,5 @@
 ---
-kind: Namespace
 apiVersion: v1
+kind: Namespace
 metadata:
   name: gitea
-  labels:
-    name: gitea
