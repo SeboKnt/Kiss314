@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bind9-config
+  namespace: dns
+data:
+  named.conf: |-
+    options {
+      forwarders {
+        1.1.1.1;
+        1.0.0.1;
+      };
+      allow-query {any; };
+      recursion no;
+    };
+    zone "home.ch13f.de" {
+      type master;
+      file "/etc/bind/home.ch13f.de";
+    };
+  home.ch13f.de: |-
+    $TTL 15
+    $ORIGIN home.ch13f.de.
+    ; -- SOA Records --
+    @               IN      SOA     ns1.home.ch13f.de. info.home.ch13f.de. (
+                                    2023111101      ; serial
+                                    86400           ; refresh
+                                    10800           ; retry
+                                    3600000         ; expire
+                                    3               ; minimum ttl
+                                    )
+    ; -- NS Records --
+    @               IN      NS      ns1.home.ch13f.de.
+    ns1             IN      A       192.168.178.188
+    ; -- dns records --
+    pi		          IN	    A	      192.168.178.188
+    *.pi            IN      A       192.168.178.188
+    ; -- wildcard --
+    ;;*               IN      A       23.88.97.13
+    ;;                IN      A       116.202.8.94
+    ;;                IN      A       95.217.156.114

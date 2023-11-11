@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind9-deployment
+  namespace: dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bind9
+  template:
+    metadata:
+      labels:
+        app: bind9
+    spec:
+      containers:
+        - name: bind9
+          image: ubuntu/bind9:latest
+          env:
+            - name: BIND9_USER
+              value: root
+            - name: TZ
+              value: Europe/Berlin
+          ports:
+            - containerPort: 53
+              protocol: TCP
+            - containerPort: 53
+              protocol: UDP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/bind
+      volumes:
+        - name: config-volume
+          configMap:
+            name: bind9-config
