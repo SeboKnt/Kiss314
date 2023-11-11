@@ -2,8 +2,8 @@
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
-  name: flux
-  namespace: flux-system
+  name: gitea
+  namespace: gitea
 spec:
   repo: https://dl.gitea.com/charts/
   chart: gitea
